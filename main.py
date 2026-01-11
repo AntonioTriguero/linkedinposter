@@ -25,7 +25,7 @@ client = OpenAI(
     base_url="https://api.perplexity.ai"
 )
 
-# ========== TOPICS EJECUTIVOS (Generalista, no técnico bajo nivel) ==========
+# ========== TOPICS EJECUTIVOS ==========
 TOPICS = [
     # ===== AI & BUSINESS IMPACT =====
     "¿Cómo 2026 cambia la adopción empresarial de IA agéntica?",
@@ -68,21 +68,11 @@ TOPICS = [
 ]
 
 def extraer_query_imagen_del_contenido(post_text, tema=None):
-    """
-    Analiza PROFUNDAMENTE el contenido del post para generar queries PRECISAS.
-    
-    🎯 MEJORA: Multi-criterio contextual
-    - Busca múltiples palabras clave
-    - Combina contexto para queries más específicas
-    - Prioriza combinaciones temáticas
-    - Muestra análisis en logs
-    """
+    """Analiza contenido y genera query precisa para imagen"""
     
     post_lower = post_text.lower()
     
-    # Patrones específicos: (palabras clave) -> (queries de imagen)
     keyword_patterns = {
-        # PRODUCT & STRATEGY
         'product': ['product design', 'product strategy', 'innovation'],
         'feature': ['feature development', 'product roadmap', 'design thinking'],
         'competitive': ['competition', 'market strategy', 'business advantage'],
@@ -92,7 +82,6 @@ def extraer_query_imagen_del_contenido(post_text, tema=None):
         'trade-off': ['balance', 'choice', 'equilibrium'],
         'roadmap': ['product roadmap', 'planning', 'strategy'],
         
-        # TEAM & ORGANIZATION
         'equipo': ['team collaboration', 'teamwork', 'diverse team working'],
         'team': ['team collaboration', 'teamwork', 'group meeting'],
         'cultura': ['company culture', 'team culture', 'workplace'],
@@ -101,7 +90,6 @@ def extraer_query_imagen_del_contenido(post_text, tema=None):
         'ingeniero': ['engineers', 'technical team', 'professionals'],
         'talento': ['talent', 'people', 'professionals'],
         
-        # BUSINESS & GROWTH & ECONOMICS
         'crecimiento': ['business growth', 'expansion', 'success'],
         'escala': ['growth', 'scaling business', 'expansion'],
         'negocio': ['business', 'entrepreneurship', 'startup office'],
@@ -115,7 +103,6 @@ def extraer_query_imagen_del_contenido(post_text, tema=None):
         'saas': ['SaaS business', 'subscription model', 'business growth'],
         'infra': ['infrastructure', 'technology', 'business efficiency'],
         
-        # TECHNICAL DECISIONS
         'arquitectura': ['architecture', 'blueprint', 'planning'],
         'infraestructur': ['cloud', 'infrastructure', 'technology'],
         'datos': ['data', 'analytics', 'database visualization'],
@@ -123,14 +110,12 @@ def extraer_query_imagen_del_contenido(post_text, tema=None):
         'seguridad': ['security', 'protection', 'cybersecurity'],
         'stack': ['technology stack', 'infrastructure', 'software development'],
         
-        # INNOVATION & TECHNOLOGY
         'ia': ['artificial intelligence', 'AI', 'technology'],
         'agente': ['automation', 'AI', 'technology workflow'],
         'automatización': ['automation', 'efficiency', 'workflow'],
         'digital': ['digital transformation', 'technology', 'innovation'],
         'innovación': ['innovation', 'future', 'technology'],
         
-        # FINANCIAL & OPTIMIZATION & COST
         'costo': ['cost optimization', 'finance', 'business efficiency'],
         'coste': ['cost optimization', 'finance', 'business efficiency'],
         'optimización': ['optimization', 'efficiency', 'business planning'],
@@ -142,21 +127,17 @@ def extraer_query_imagen_del_contenido(post_text, tema=None):
         'excel': ['financial planning', 'business metrics', 'accounting'],
         'p&l': ['profitability', 'financial metrics', 'business growth'],
         
-        # LEARNING & DEVELOPMENT
         'aprendizaje': ['learning', 'education', 'development'],
         'desarrollo': ['development', 'growth', 'learning'],
         'productividad': ['productivity', 'efficiency', 'team working'],
         
-        # RELIABILITY & QUALITY
         'resiliente': ['reliability', 'strong', 'robust'],
         'downtime': ['crisis', 'recovery', 'failure'],
         'confiabilidad': ['reliability', 'trust', 'stability'],
     }
     
-    # ========== BÚSQUEDA MULTI-CRITERIO ==========
     print(f"  🔎 Análisis contextual del contenido...")
     
-    # 1. Buscar coincidencias
     matches_encontrados = {}
     for keyword, queries in keyword_patterns.items():
         if keyword in post_lower:
@@ -185,11 +166,9 @@ def extraer_query_imagen_del_contenido(post_text, tema=None):
             'business planning'
         ])
     
-    # 2. Prioridad: combinar contexto relevante
     if len(matches_encontrados) > 1:
         print(f"     📊 Múltiples contextos detectados ({len(matches_encontrados)}), priorizando...")
         
-        # Prioridades: Economics > Strategy > People > Tech
         priority_order = [
             'unit economics', 'ltv', 'churn', 'payback', 'p&l', 'excel',
             'costo', 'coste', 'margin', 'disciplina',
@@ -206,22 +185,21 @@ def extraer_query_imagen_del_contenido(post_text, tema=None):
                 break
         
         if not primary_keyword:
-            primary_keyword = list(matches_encontrados.keys())[0]
+            primary_keyword = list(matches_encontrados.keys())
         
         queries_primary = matches_encontrados[primary_keyword]
         selected_query = random.choice(queries_primary)
         
         return selected_query
     
-    # 3. Si solo hay un match
-    single_keyword = list(matches_encontrados.keys())[0]
+    single_keyword = list(matches_encontrados.keys())
     queries = matches_encontrados[single_keyword]
     selected_query = random.choice(queries)
     
     return selected_query
 
 def buscar_imagen_pixabay(search_query):
-    """Busca imagen RELEVANTE en Pixabay"""
+    """Busca imagen relevante en Pixabay"""
     
     if not PIXABAY_API_KEY:
         print("  ⚠️ PIXABAY_API_KEY no configurada, saltando imagen")
@@ -258,7 +236,6 @@ def buscar_imagen_pixabay(search_query):
                 }
                 
                 print(f"  ✅ Imagen encontrada: {search_query}")
-                
                 return image_info
         
         print(f"  ⚠️ No encontramos imagen para '{search_query}'")
@@ -272,9 +249,7 @@ def buscar_imagen_pixabay(search_query):
         return None
 
 def registrar_imagen_en_linkedin(image_url, image_credit):
-    """
-    Registra una imagen en LinkedIn usando registerUpload
-    """
+    """Registra imagen en LinkedIn"""
     
     try:
         print(f"  📥 Registrando imagen en LinkedIn...")
@@ -341,7 +316,7 @@ def registrar_imagen_en_linkedin(image_url, image_credit):
         return None
 
 def buscar_noticias_recientes():
-    """Busca noticias recientes con perspectiva ejecutiva"""
+    """Busca noticias recientes"""
     
     try:
         print(f"  📰 Buscando noticias recientes...")
@@ -366,7 +341,7 @@ IMPORTANTE: Sin faltas de ortografía ni gramática."""
             temperature=0.5
         )
         
-        noticias = response.choices[0].message.content.strip()
+        noticias = response.choices.message.content.strip()
         noticias = re.sub(r'\[\d+\]', '', noticias)
         noticias = re.sub(r'\s+', ' ', noticias)
         
@@ -378,7 +353,7 @@ IMPORTANTE: Sin faltas de ortografía ni gramática."""
         return None
 
 def buscar_contexto_actualizado(topic):
-    """Busca contexto ejecutivo sobre el topic"""
+    """Busca contexto ejecutivo"""
     
     try:
         print(f"  🔍 Buscando contexto: {topic}...")
@@ -402,7 +377,7 @@ Contexto para 2026."""
             temperature=0.5
         )
         
-        contexto = response.choices[0].message.content.strip()
+        contexto = response.choices.message.content.strip()
         contexto = re.sub(r'\[\d+\]', '', contexto)
         contexto = re.sub(r'\s+', ' ', contexto)
         
@@ -414,48 +389,36 @@ Contexto para 2026."""
         return None
 
 def agregar_parrafos_inteligentes(texto):
-    """
-    Agrega párrafos inteligentemente al texto del post.
-    Busca puntos lógicos de división.
-    """
+    """Agrega párrafos inteligentemente. Hashtags en línea única al final."""
     
+    # Extraer hashtags
+    hashtags = re.findall(r'#\w+', texto)
+    
+    # Remover hashtags del texto
+    texto_sin_hashtags = re.sub(r'\n?#\w+\n?', '', texto).strip()
+    
+    # Separadores lógicos
     separadores = [
-        '. Un ',
-        '. La ',
-        '. Dos ',
-        '. Tres ',
-        '. En ',
-        '. Con ',
-        '. Sin ',
-        '. Por ',
-        '. Esto ',
-        '. Se ',
-        '. Es ',
-        '. Hoy ',
-        '. En 2026',
-        '. Cuando ',
-        '. Si ',
-        '. Mientras ',
-        '. Además ',
-        '. Por eso ',
-        '. Más allá ',
-        '. Lo real ',
+        '. Un ', '. La ', '. Dos ', '. Tres ', '. En ', '. Con ', '. Sin ',
+        '. Por ', '. Esto ', '. Se ', '. Es ', '. Hoy ', '. En 2026',
+        '. Cuando ', '. Si ', '. Mientras ', '. Además ', '. Por eso ',
+        '. Más allá ', '. Lo real ',
     ]
     
-    resultado = texto
+    resultado = texto_sin_hashtags
     for sep in separadores:
         resultado = resultado.replace(sep, f'.\n\n{sep[2:]}')
     
     resultado = re.sub(r'\n\n+', '\n\n', resultado)
-    resultado = re.sub(r'(\w)\s+(#)', r'\1\n\n\2', resultado)
+    
+    # Agregar hashtags en una sola línea al final
+    if hashtags:
+        resultado = resultado.strip() + '\n\n' + ' '.join(hashtags)
     
     return resultado.strip()
 
 def corregir_ortografia_y_gramatica(texto):
-    """
-    Corrige ortografía, gramática y puntuación del texto.
-    Usa LLM para garantizar corrección perfecta.
-    """
+    """Corrige ortografía, gramática y puntuación"""
     
     try:
         print(f"  ✏️ Corrigiendo ortografía, gramática y puntuación...")
@@ -467,6 +430,7 @@ def corregir_ortografia_y_gramatica(texto):
                     "role": "user",
                     "content": f"""Corrige SOLO ortografía, gramática y puntuación. 
 NO cambies el contenido, ni el tono, ni el significado.
+NO cambies el formato de los hashtags (deben ir todos en una línea al final).
 SOLO correcciones ortográficas y gramaticales.
 
 Texto original:
@@ -479,7 +443,7 @@ Responde SOLO con el texto corregido, sin explicaciones."""
             temperature=0.3
         )
         
-        texto_corregido = response.choices[0].message.content.strip()
+        texto_corregido = response.choices.message.content.strip()
         
         if not texto_corregido or len(texto_corregido) < len(texto) * 0.5:
             print(f"  ⚠️ Corrección fallida, usando original")
@@ -493,7 +457,7 @@ Responde SOLO con el texto corregido, sin explicaciones."""
         return texto
 
 def generar_post_con_noticias_o_topic(usar_noticias, noticias=None, topic=None, contexto=None):
-    """Genera post EJECUTIVO (no técnico bajo nivel)"""
+    """Genera post ejecutivo"""
     
     if usar_noticias and noticias:
         prompt = f"""
@@ -509,11 +473,14 @@ REQUISITOS:
 - Ejemplos: 1-2 casos concretos (business outcomes, no implementation)
 - Tono: Reflexivo, estratégico, experiencia
 - Cierra: Pregunta sobre impacto organizacional
-- 3-4 hashtags relevantes
+- 3-4 hashtags al final en una línea separada
 - Evita: Jerga técnica específica, low-level details
 - Español
 - USA PUNTOS (.) para separar ideas, eso me ayuda a agregar párrafos
 - CRÍTICO: Sin faltas de ortografía, gramática ni puntuación
+
+Formato de hashtags (UNA LÍNEA AL FINAL):
+#Hashtag1 #Hashtag2 #Hashtag3 #Hashtag4
 
 Responde SOLO con el post.
 """
@@ -535,9 +502,13 @@ REQUISITOS:
 - Ejemplos: 1-2 casos de negocio reales (no técnicos)
 - Tono: Reflexivo, pragmático, experience-driven
 - Cierra: Pregunta que provoque pensamiento
-- 3-4 hashtags
-- Estructura: Usa PUNTOS (.) para separar ideas diferentes, eso me ayuda a agregar párrafos
+- 3-4 hashtags al final en una línea separada
+- Estructura: Usa PUNTOS (.) para separar ideas diferentes
 - CRÍTICO: Sin faltas de ortografía, gramática ni puntuación
+
+Formato de hashtags (UNA LÍNEA AL FINAL):
+#Hashtag1 #Hashtag2 #Hashtag3 #Hashtag4
+
 - Evita: 
   * Jerga técnica específica (indices, LoRA, DAG, etc)
   * Código o pseudocódigo
@@ -558,7 +529,7 @@ Responde SOLO con el post.
             temperature=0.7,
         )
         
-        text = response.choices[0].message.content.strip()
+        text = response.choices.message.content.strip()
         text = text.replace("**", "").replace("*", "").replace("##", "").replace("`", "")
         text = re.sub(r'\[\d+\]', '', text)
         
@@ -572,7 +543,7 @@ Responde SOLO con el post.
         return None
 
 def publicar_en_linkedin(post_content, asset_urn=None):
-    """Publica post en LinkedIn con imagen opcional"""
+    """Publica post en LinkedIn"""
     
     try:
         post_url = "https://api.linkedin.com/v2/ugcPosts"
@@ -710,7 +681,7 @@ def generar_y_publicar():
 if __name__ == "__main__":
     
     immediate_mode = len(sys.argv) > 1 and sys.argv[1] == "now"
-    
+    print(sys.argv)
     if immediate_mode:
         print("⚡" * 30)
         print("MODO INMEDIATO: Generando y publicando ahora")
@@ -728,26 +699,20 @@ if __name__ == "__main__":
         print(f"     • Audiencia: CTOs, Founders, VP Product")
         print(f"     • Enfoque: Decisiones estratégicas, trade-offs")
         print(f"     • Párrafos: Agrupados inteligentemente")
+        print(f"     • Hashtags: Línea única al final")
         print(f"\n  📸 Imágenes: Análisis MULTI-CRITERIO")
-        print(f"     • Detecta múltiples palabras clave en el post")
-        print(f"     • Prioriza por relevancia (economics > strategy > people > tech)")
-        print(f"     • Queries contextuales PRECISAS")
-        print(f"     • Siempre alineadas con el mensaje")
+        print(f"     • Detecta múltiples palabras clave")
+        print(f"     • Prioriza: economics > strategy > people > tech")
+        print(f"     • Queries contextuales precisas")
+        print(f"     • Siempre alineadas con mensaje")
         print(f"\n  ✏️ Corrección: ORTOGRAFÍA, GRAMÁTICA Y PUNTUACIÓN")
         print(f"     • Análisis LLM de cada post")
         print(f"     • Verificación antes de publicar")
         print(f"     • Cero tolerancia a errores")
-        print(f"\n  📚 Contenido personalizado:")
-        print(f"     • IA agéntica & Business Impact")
-        print(f"     • Team Building & Culture")
-        print(f"     • Product & Strategy")
-        print(f"     • Infrastructure & Scale")
-        print(f"     • Security & Reliability")
-        print(f"     • 50% noticias, 50% temas estratégicos")
-        print(f"\n  👤 Audiencia: CTOs, Founders, Tech Leaders, VP Product")
-        print(f"\n  💰 Costo: $0.04/post (generación + corrección) + gratis (Pixabay)")
-        print(f"\n  ⏰ Frecuencia: Automática cada 3.5 días a las 10:00")
-        print(f"     O modo inmediato: python3 main.py now")
+        print(f"\n  📚 Contenido: 50% noticias, 50% temas estratégicos")
+        print(f"\n  💰 Costo: $0.04/post (generación + corrección)")
+        print(f"\n  ⏰ Frecuencia: Cada 3.5 días a las 10:00")
+        print(f"     Modo inmediato: python3 main.py now")
         print(f"\n{'='*70}\n")
         
         while True:
