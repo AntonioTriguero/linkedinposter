@@ -521,12 +521,12 @@ REQUISITOS:
 - Largo: 600-800 caracteres
 - Ejemplos: 1-2 casos concretos (business outcomes, no implementation)
 - Tono: Reflexivo, estratégico, experiencia
-- Cierra: Pregunta sobre impacto organizacional
 - 3-4 hashtags al final en una línea separada
 - Evita: Jerga técnica específica, low-level details
 - Español
 - USA PUNTOS (.) para separar ideas, eso me ayuda a agregar párrafos
 - CRÍTICO: Sin faltas de ortografía, gramática ni puntuación
+- No cerrar siempre con una pregunta
 
 Formato de hashtags (UNA LÍNEA AL FINAL):
 #Hashtag1 #Hashtag2 #Hashtag3 #Hashtag4
@@ -550,10 +550,10 @@ REQUISITOS:
 - Enfoque: DECISIONES y TRADE-OFFS, no implementación
 - Ejemplos: 1-2 casos de negocio reales (no técnicos)
 - Tono: Reflexivo, pragmático, experience-driven
-- Cierra: Pregunta que provoque pensamiento
 - 3-4 hashtags al final en una línea separada
 - Estructura: Usa PUNTOS (.) para separar ideas diferentes, eso me ayuda a agregar párrafos
 - CRÍTICO: Sin faltas de ortografía, gramática ni puntuación
+- No cerrar siempre con una pregunta
 
 Formato de hashtags (UNA LÍNEA AL FINAL):
 #Hashtag1 #Hashtag2 #Hashtag3 #Hashtag4
