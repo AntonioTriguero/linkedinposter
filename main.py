@@ -527,6 +527,7 @@ REQUISITOS:
 - USA PUNTOS (.) para separar ideas, eso me ayuda a agregar párrafos
 - CRÍTICO: Sin faltas de ortografía, gramática ni puntuación
 - No cerrar siempre con una pregunta
+- No utilizar formato Markdown
 
 Formato de hashtags (UNA LÍNEA AL FINAL):
 #Hashtag1 #Hashtag2 #Hashtag3 #Hashtag4
@@ -554,6 +555,7 @@ REQUISITOS:
 - Estructura: Usa PUNTOS (.) para separar ideas diferentes, eso me ayuda a agregar párrafos
 - CRÍTICO: Sin faltas de ortografía, gramática ni puntuación
 - No cerrar siempre con una pregunta
+- No utilizar formato Markdown
 
 Formato de hashtags (UNA LÍNEA AL FINAL):
 #Hashtag1 #Hashtag2 #Hashtag3 #Hashtag4
