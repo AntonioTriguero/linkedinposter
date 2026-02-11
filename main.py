@@ -527,7 +527,11 @@ REQUISITOS:
 - USA PUNTOS (.) para separar ideas, eso me ayuda a agregar párrafos
 - CRÍTICO: Sin faltas de ortografía, gramática ni puntuación
 - No cerrar siempre con una pregunta
-- No utilizar formato Markdown
+- CRÍTICO: no utilizar formato Markdown
+- No utilices la expresiones: CTO, tech lead.
+- Pon el link de la noticia al en una linea aparte después de los hastags
+- No utilices expresiones "como CTO..", "para software engineers senior..". No se trata de hablar de mi
+- No incluyas texto entre simbolos "**" para las negritas. Esto no funciona.
 
 Formato de hashtags (UNA LÍNEA AL FINAL):
 #Hashtag1 #Hashtag2 #Hashtag3 #Hashtag4
@@ -538,7 +542,7 @@ Responde SOLO con el post.
         prompt = f"""
 Eres un CTO/VP Engineering escribiendo insights estratégicos.
 Especialidad: IA agéntica, tech decisions, team building, product strategy
-Audiencia: CTOs, Tech Leaders, Founders, VP Product
+Audiencia: CTOs, Tech Leaders, Founders, VP Product, Software Engineers
 
 TEMA: {topic}
 
@@ -555,7 +559,10 @@ REQUISITOS:
 - Estructura: Usa PUNTOS (.) para separar ideas diferentes, eso me ayuda a agregar párrafos
 - CRÍTICO: Sin faltas de ortografía, gramática ni puntuación
 - No cerrar siempre con una pregunta
-- No utilizar formato Markdown
+- CRÍTICO: No utilizar formato Markdown
+- No utilices la expresiones: CTO, tech lead.
+- No utilices expresiones "como CTO..", "para software engineers senior..". No se trata de hablar de mi
+- No incluyas texto entre simbolos "**" para las negritas. Esto no funciona.
 
 Formato de hashtags (UNA LÍNEA AL FINAL):
 #Hashtag1 #Hashtag2 #Hashtag3 #Hashtag4
